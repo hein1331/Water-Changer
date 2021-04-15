@@ -10,11 +10,11 @@
 
 void init_temperature(void);
 void update_temperature(void);
-unsigned short get_temperature(void);
+unsigned int get_temperature(void);
 
 #define START_ADC   ADCON0bits.GO = 1
 
-#define ADC_INT INTCON0bits.ADIF
+#define ADC_INT PIR1bits.ADIF
 #define RESET_ADC ADC_INT = 0; START_ADC;
 
 #endif	/* TEMPERATURE_H */

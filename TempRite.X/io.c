@@ -2,27 +2,19 @@
 #include "io.h"
 
 void init_io(void) {
-    // Internal occilator calibration
-    OSCCAL = 0b00100111;
+    // Enable HF Occilstior
+    OSCENbits.HFOEN = 1;
+    
+    // Set occilator frequency to 16mHZ
+    OSCFRQ = 0b100;
+        
+    // Wait for occilator to be ready
+    while(!OSCSTATbits.HFOR);
     
     // Set R0 to ADC and the rest to digital pins
-    ANSEL = 0x1;
-    
-    // Bit 7: 1 -> Disable PORTB Interrupt Flag on Pin Change bit
-    // Bit 6: 1 -> Disable PORTB Weak Pull-Ups bit
-    // Bit 5: 0 -> Timer0 uses internal clock
-    // Bit 4: 0 -> Does not matter
-    // Bit 3: 0 -> Prescaler assigned to Timer0
-    // Bit <2:0>: 110 -> Timer0 Prescalar 1:128
-    OPTION = 0b11010110;
-    
-    // Turn off comparators
-    CM1CON0bits.C1ON = 0;
-    CM2CON0bits.C2ON = 0;
-    
-    // Disable op amps
-    OPACONbits.OPA1ON = 0;
-    OPACONbits.OPA2ON = 0;
+    ANSELA = 0x1;
+    ANSELB = 0x0;
+    ANSELC = 0x0;
     
     // Init all IO to 0
     PORTA = 0;

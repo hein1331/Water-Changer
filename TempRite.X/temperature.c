@@ -2,16 +2,25 @@
 //#include <math.h>
 #include "temperature.h"
 
-volatile unsigned short temperature = 0;
+volatile unsigned int temperature = 0;
 
 void init_temperature(void) {
     // Configure ADC
     
-    // Bit <7:6>: 11 -> Use internal clock for ADC
-    // Bit <5:2>: 0000 -> Use ADC channel 1
-    // Bit 1: 0 -> Do not start ADC
-    // Bit 0: 1 -> Turn on ADC module
-    ADCON0 = 0b11000001;
+    // Turn on ADC converter on RA0
+    ADCON0bits.CHS = 0;
+    
+    // Set ADC ref to VDD
+    ADCON1bits.PREF = 0;
+    
+    // Set ADC clock to Fosc/4
+    ADCON1bits.CS = 0b100;
+    
+    // Set the converted register right-justified with ADRESH having MSBs
+    ADCON1bits.FM = 1;
+    
+    // Enable the ADC interrupt
+    PIE1bits.ADIE = 1;
     
     RESET_ADC
 }
@@ -23,6 +32,6 @@ void update_temperature(void) {
 }
 
 
-unsigned short get_temperature(void) {
+unsigned int get_temperature(void) {
     return temperature;
 }

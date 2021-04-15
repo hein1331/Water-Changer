@@ -38,16 +38,16 @@
     <conf name="default" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>PIC16F570</targetDevice>
+        <targetDevice>PIC16F15256</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>PICkit3PlatformTool</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC8</languageToolchain>
         <languageToolchainVersion>2.32</languageToolchainVersion>
         <platform>4</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC16Fxxx_DFP" vendor="Microchip" version="1.2.33"/>
+        <pack name="PIC16F1xxxx_DFP" vendor="Microchip" version="1.6.143"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -84,7 +84,8 @@
         <property key="default-char-type" value="true"/>
         <property key="define-macros" value=""/>
         <property key="disable-optimizations" value="false"/>
-        <property key="extra-include-directories" value=""/>
+        <property key="extra-include-directories"
+                  value="/Applications/microchip/mplabx/v5.45/packs/Microchip/PIC16F1xxxx_DFP/1.6.143/xc8/pic/include/proc"/>
         <property key="favor-optimization-for" value="-speed,+space"/>
         <property key="garbage-collect-data" value="true"/>
         <property key="garbage-collect-functions" value="true"/>
