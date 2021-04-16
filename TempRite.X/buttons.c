@@ -26,7 +26,7 @@ void init_buttons(void) {
     dwn_counter = 0;
     
     // Get EEPROM value
-    temp_setpoint = 0;
+    set_setpoint_from_nvm();
 }
 
 unsigned char get_status(void) {
@@ -50,12 +50,18 @@ void update_buttons(void) {
     if(UP_BUT && up_counter == 0)
     {
         if(temp_setpoint < 99)
+        {
             temp_setpoint++;
+            save_setpoint_to_nvm();
+        }
     }
     if(DWN_BUT && dwn_counter == 0)
     {
         if(temp_setpoint > 0)
+        {
             temp_setpoint--;
+            save_setpoint_to_nvm();
+        }
     }
     
     // Set counters
@@ -77,4 +83,42 @@ void update_buttons(void) {
     
     if(dwn_counter > 0)
         dwn_counter--;
+}
+
+
+void save_setpoint_to_nvm(void) {
+    // Erase the address
+    NVMCON1bits.NVMREGS = 0;
+    NVMADR = SETPOINT_SAVE_ADDR;
+    NVMCON1bits.FREE = 1;
+    NVMCON1bits.WREN = 1;
+    unlock_nvm();
+    
+    // Erase is finished
+    NVMCON1bits.FREE = 0;
+    
+    // Load setpoint into latch    
+    NVMCON1bits.LWLO = 1;
+    NVMADR = SETPOINT_SAVE_ADDR;
+    NVMDAT = (unsigned short)temp_setpoint;
+    unlock_nvm();
+    
+    // Write setpoint to NVM
+    NVMCON1bits.LWLO = 0;
+    unlock_nvm();
+    NVMCON1bits.WREN = 0;    
+}
+
+void set_setpoint_from_nvm(void) {
+    NVMCON1bits.NVMREGS = 0;
+    NVMADR = SETPOINT_SAVE_ADDR;
+    NVMCON1bits.RD = 1;
+    temp_setpoint = (int)NVMDAT;
+}
+
+
+void unlock_nvm(void) {
+    NVMCON2 = 0x55;
+    NVMCON2 = 0xAA;
+    NVMCON1bits.WR = 1;
 }

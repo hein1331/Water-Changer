@@ -14,6 +14,11 @@ void init_buttons(void);
 void update_buttons(void);
 unsigned char get_status(void);
 int get_temp_setpoint(void);
+void set_setpoint_from_nvm(void);
+void save_setpoint_to_nvm(void);
+void unlock_nvm(void);
+
+#define SETPOINT_SAVE_ADDR  0x3FFF
 
 #define DEBOUNCE_TIME 5 // In 10s of ms
 
