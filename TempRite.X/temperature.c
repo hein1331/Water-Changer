@@ -1,8 +1,8 @@
 #include <xc.h>
-//#include <math.h>
+#include <math.h>
 #include "temperature.h"
 
-volatile unsigned int temperature = 0;
+volatile int temperature = 0;
 
 void init_temperature(void) {
     // Configure ADC
@@ -27,11 +27,21 @@ void init_temperature(void) {
 
 
 void update_temperature(void) {
-    temperature = ADRES;
+    // Get ADC value
+    double adc_read = (double)ADRES;
+    
+    // Calculate resistance of thermistor
+    double r_therm = (R1 * adc_read)/(MAX_ADC-adc_read);
+
+    // Calculate the resistance
+    double log_r_therm = log(r_therm); 
+    double t_kelvin = (1.0 / (A + B * log_r_therm + C * log_r_therm * log_r_therm * log_r_therm));
+    temperature = (int) (t_kelvin + KELVIN_0C);
+    
     RESET_ADC
 }
 
 
-unsigned int get_temperature(void) {
+int get_temperature(void) {
     return temperature;
 }

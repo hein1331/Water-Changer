@@ -1,6 +1,5 @@
 #include <xc.h>
 
-
 #include "temp_regulator.h"
 #include "temperature.h"
 #include "io.h"
@@ -17,7 +16,7 @@ void temp_regulator_update(void) {
         if(time >= UPDATE_TIME)
         {
             // Update PI
-            signed int err = TEMP_SETPOINT - (signed int)get_temperature();
+            signed int err = get_temp_setpoint() - get_temperature();
 
             signed int p = KP * err;
             signed int i = (KI * (prev_i + (err * CONTROL_TIME)/100))/10;
@@ -49,13 +48,9 @@ void temp_regulator_update(void) {
         HOT_VALVE = time <= hot_time;
 
         time++;
-        
-        DP = ON;
     }
     else {
         COLD_VALVE = 0;
         HOT_VALVE = 0;
-        
-        DP = OFF;
     }
 }

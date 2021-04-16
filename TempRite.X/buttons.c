@@ -14,6 +14,8 @@ unsigned short on_counter;
 unsigned short up_counter;
 unsigned short dwn_counter;
 
+int temp_setpoint;
+
 void init_buttons(void) {
     on_prev_state = ON_BUT;
     up_prev_state = UP_BUT;
@@ -22,10 +24,17 @@ void init_buttons(void) {
     on_counter = 0;
     up_counter = 0;
     dwn_counter = 0;
+    
+    // Get EEPROM value
+    temp_setpoint = 0;
 }
 
 unsigned char get_status(void) {
     return status;
+}
+
+int get_temp_setpoint(void) {
+    return temp_setpoint;
 }
 
 
@@ -40,13 +49,13 @@ void update_buttons(void) {
     }  
     if(UP_BUT && up_counter == 0)
     {
-        //if(temp_setpoint < 99)
-          //  temp_setpoint++;
+        if(temp_setpoint < 99)
+            temp_setpoint++;
     }
     if(DWN_BUT && dwn_counter == 0)
     {
-        //if(temp_setpoint > 0)
-           // temp_setpoint--;
+        if(temp_setpoint > 0)
+            temp_setpoint--;
     }
     
     // Set counters

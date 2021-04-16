@@ -45,29 +45,35 @@ void init_display(void) {
 
 void update_display(void) {
     // Set the number
-    unsigned short dig_1_num = 0;
-    unsigned short dig_2_num = 0;
-    unsigned short num = get_temperature();
+    int dig_1_num = 0;
+    int dig_2_num = 0;
+    int num = GET_TEMP;
+    
+    // Limit reading
     if(num > 99)
         num = 99;
-    unsigned short dig_1 = (num / 10) % 10;
+    
+    // Calculate first digit
+    int dig_1 = (num / 10) % 10;
     if(dig_1 == 0)
         dig_1_num = DIG_OFF;
     else
         dig_1_num = dig_1;
     
+    // Calculate second digit
     dig_2_num = num - (dig_1*10);
     
     // Set the decimal point status
     dp_stat = get_status();
     
-    signed int temp_diff = TEMP_SETPOINT - (signed int)get_temperature();
-    signed short on_temp = (temp_diff <= TEMP_DIFF && temp_diff >= -TEMP_DIFF);
+    // Calculate temp diff to see if the light should flash
+    int temp_diff = get_temp_setpoint() - get_temperature();
+    int on_temp = (temp_diff <= TEMP_DIFF && temp_diff >= -TEMP_DIFF);
     
     if(dp_stat == ON && on_temp)
         dp_stat = FLASH;
             
-    unsigned short num_to_set = 0;
+    int num_to_set = 0;
     
     num_toggle = !num_toggle;
     
@@ -78,7 +84,7 @@ void update_display(void) {
     
     if(num_toggle == DIG_1_EN)
     {
-        //DP = OFF;
+        DP = OFF;
         num_to_set = dig_1_num;
     }
     else
@@ -97,8 +103,8 @@ void update_display(void) {
                     temp++;
             }
         }
-        //else
-            //DP = dp_stat;
+        else
+            DP = dp_stat;
     }
 
     SEG_A = NUM_ARRAY[num_to_set][0];

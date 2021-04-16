@@ -13,6 +13,7 @@
 void init_buttons(void);
 void update_buttons(void);
 unsigned char get_status(void);
+int get_temp_setpoint(void);
 
 #define DEBOUNCE_TIME 5 // In 10s of ms
 
