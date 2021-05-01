@@ -12,8 +12,8 @@ void init_timer(void) {
     T0CON1bits.CS = 0b010;
     T0CON1bits.ASYNC = 0;
     
-    // Set timer prescalar to 1:128
-    T0CON1bits.CKPS = 0b0111;
+    // Set timer prescalar to 1:256
+    T0CON1bits.CKPS = 0b1000;
     
     RESET_TIMER
             

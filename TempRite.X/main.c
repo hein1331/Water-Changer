@@ -29,7 +29,7 @@
 #pragma config WRTB = OFF       // Boot Block Write Protection bit (Boot Block is not write-protected)
 #pragma config WRTC = OFF       // Configuration Registers Write Protection bit (Configuration Registers are not write-protected)
 #pragma config WRTSAF = OFF     // Storage Area Flash (SAF) Write Protection bit (SAF is not write-protected)
-#pragma config LVP = OFF        // Low Voltage Programming Enable bit (High Voltage on MCLR/Vpp must be used for programming)
+#pragma config LVP = ON        // Low Voltage Programming Enable bit (High Voltage on MCLR/Vpp must be used for programming)
 
 // CONFIG5
 #pragma config CP = OFF         // User Program Flash Memory Code Protection bit (User Program Flash Memory code protection is disabled)
@@ -69,10 +69,10 @@ void main(void) {
 void __interrupt() ISR(void) {
     STOP_INTERRUPTS;
     if(TIMER_INT) {
+        RESET_TIMER
         update_display();
         update_buttons();
         temp_regulator_update();
-        RESET_TIMER
     }
     if(ADC_INT)
         update_temperature();
