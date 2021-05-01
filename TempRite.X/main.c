@@ -68,11 +68,14 @@ void main(void) {
 
 void __interrupt() ISR(void) {
     STOP_INTERRUPTS;
-    if(TIMER_INT) {
-        RESET_TIMER
+    if(FAST_TIMER_INT) {
+        RESET_FAST_TIMER
         update_display();
         update_buttons();
         temp_regulator_update();
+    }
+    if(SLOW_TIMER_INT) {
+        RESET_SLOW_TIMER
     }
     if(ADC_INT)
         update_temperature();
