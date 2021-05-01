@@ -49,7 +49,7 @@ void update_buttons(void) {
     }  
     if(UP_BUT && up_counter == 0)
     {
-        if(temp_setpoint < 99)
+        if(temp_setpoint < MAX_SETPOINT)
         {
             temp_setpoint++;
             save_setpoint_to_nvm();
@@ -57,7 +57,7 @@ void update_buttons(void) {
     }
     if(DWN_BUT && dwn_counter == 0)
     {
-        if(temp_setpoint > 0)
+        if(temp_setpoint > MIN_SETPOINT)
         {
             temp_setpoint--;
             save_setpoint_to_nvm();
@@ -114,6 +114,12 @@ void set_setpoint_from_nvm(void) {
     NVMADR = SETPOINT_SAVE_ADDR;
     NVMCON1bits.RD = 1;
     temp_setpoint = (int)NVMDAT;
+    
+    if(temp_setpoint > MAX_SETPOINT || temp_setpoint < MIN_SETPOINT)
+    {
+        temp_setpoint = DEFAULT_SETPOINT;
+        save_setpoint_to_nvm();
+    }
 }
 
 

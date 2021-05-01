@@ -22,5 +22,9 @@ void unlock_nvm(void);
 
 #define DEBOUNCE_TIME 5 // In 10s of ms
 
+#define MAX_SETPOINT        99
+#define MIN_SETPOINT        0
+#define DEFAULT_SETPOINT    70
+
 #endif	/* BUTTONS_H */
 
