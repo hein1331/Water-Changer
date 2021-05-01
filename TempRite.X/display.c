@@ -72,7 +72,7 @@ void update_display(void) {
     
     if(dp_stat == ON && on_temp)
         dp_stat = FLASH;
-            
+    
     int num_to_set = 0;
     
     num_toggle = !num_toggle;
@@ -94,14 +94,11 @@ void update_display(void) {
         if(dp_stat == FLASH)
         {
             dp_flash++;
-            //DP = dp_flash >= 25;
+            DP = dp_flash >= FLASH_SPEED;
 
-            if(dp_flash >= 50)
-            {
+            if(dp_flash >= FLASH_SPEED*2)
                 dp_flash = 0;
-                if(temp < 99)
-                    temp++;
-            }
+            
         }
         else
             DP = dp_stat;

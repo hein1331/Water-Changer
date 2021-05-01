@@ -29,6 +29,7 @@ void update_display(void);
 
 #define FLASH   2
 #define DIG_OFF    10
+#define FLASH_SPEED 25 // Flash every X * 10 ms (25 -> flash every 250ms)
 
 #endif	/* DISPLAY_H */
 
