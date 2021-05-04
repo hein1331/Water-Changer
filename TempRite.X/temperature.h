@@ -11,22 +11,39 @@
 void init_temperature(void);
 void update_temperature(void);
 int get_temperature(void);
+void calculate_temperature(BOOL deg_f);
+int get_adc_from_temp(int temperature);
+int get_raw_adc(void);
 
 #define START_ADC   ADCON0bits.GO = 1
 
 #define ADC_INT PIR1bits.ADIF
-#define RESET_ADC ADC_INT = 0; START_ADC;
+#define RESET_ADC ADC_INT = 0;
 
-#define R1 22000.
-#define MAX_ADC 1023.
+#define R1 22000UL
+#define MAX_ADC 1023UL
 
-// Steinhart-Hart Coefficients
-#define A 1.294101041e-03
-#define B 2.161266819e-04
-#define C 0.8871575401e-07
-
-#define KELVIN_0C -273.15
-
+// Temperature lookup table
+#define LUT_SIZE    15
+#define TEMP_INCREMENT  5
+static const unsigned int temp_lookup[LUT_SIZE] = 
+{
+    35563, // 0deg
+    27119, // 5deg
+    20860,
+    16204,
+    12683, 
+    10000,
+    7942,
+    6326,
+    5074,
+    4102,
+    3336,
+    2724,
+    2237,
+    1845,
+    1530
+};
 
 #endif	/* TEMPERATURE_H */
 

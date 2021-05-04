@@ -11,5 +11,9 @@
 #define STOP_INTERRUPTS     INTCONbits.GIE = 0; INTCONbits.PEIE = 0
 #define START_INTERRUPTS    INTCONbits.GIE = 1; INTCONbits.PEIE = 1
 
+typedef unsigned short BOOL;
+#define TRUE    1
+#define FALSE   0
+
 #endif	/* COMMONDEFINES_H */
 

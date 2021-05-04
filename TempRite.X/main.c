@@ -48,6 +48,8 @@
 #include "temperature.h"
 #include "temp_regulator.h"
 
+volatile BOOL calc_temp = TRUE;
+
 void main(void) {
     // Stop global interrupts
     STOP_INTERRUPTS;
@@ -62,7 +64,12 @@ void main(void) {
     // Start global interrupts
     START_INTERRUPTS;
     
-    while(1);
+    while(1) {
+        if(calc_temp) {
+            calc_temp = FALSE;
+            calculate_temperature(TRUE);
+        }
+    }
 }
 
 
@@ -73,9 +80,11 @@ void __interrupt() ISR(void) {
         update_display();
         update_buttons();
         temp_regulator_update();
+        START_ADC;
     }
     if(SLOW_TIMER_INT) {
         RESET_SLOW_TIMER
+        calc_temp = TRUE;
     }
     if(ADC_INT)
         update_temperature();

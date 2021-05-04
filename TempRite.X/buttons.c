@@ -116,10 +116,8 @@ void set_setpoint_from_nvm(void) {
     temp_setpoint = (int)NVMDAT;
     
     if(temp_setpoint > MAX_SETPOINT || temp_setpoint < MIN_SETPOINT)
-    {
         temp_setpoint = DEFAULT_SETPOINT;
-        save_setpoint_to_nvm();
-    }
+    
 }
 
 

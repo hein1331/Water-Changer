@@ -1,5 +1,6 @@
 #include <xc.h>
 
+#include "commondefines.h"
 #include "temp_regulator.h"
 #include "temperature.h"
 #include "io.h"

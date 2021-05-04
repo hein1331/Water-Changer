@@ -1,5 +1,6 @@
 #include <xc.h>
 
+#include "commondefines.h"
 #include "io.h"
 #include "display.h"
 #include "buttons.h"
@@ -20,8 +21,6 @@ const unsigned char NUM_ARRAY[11][7] =   {  { ON,ON,ON,ON,ON,ON,OFF },    // 0
 
 unsigned char num_toggle = DIG_1_EN;
 short dp_flash = 0;
-short temp = 0;
-
 
 volatile unsigned char dp_stat = OFF;
 

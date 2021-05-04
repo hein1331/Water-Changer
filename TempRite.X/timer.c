@@ -19,6 +19,7 @@ void init_timer(void) {
             
     
     // Slow timer init
+
     // Set timer to 8 bit timer
     T0CON0bits.MD16 = 0;
     
@@ -33,7 +34,7 @@ void init_timer(void) {
     T0CON1bits.CKPS = 0b1001;
 
     // Set timer postscalar to 1:4
-    T0CON0bits.OUTPS = 0b0011;
+    T0CON0bits.OUTPS = 0;//0b0011;
 
     // Turn on interrupt
     PIE0bits.TMR0IE = 1;
