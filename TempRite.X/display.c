@@ -66,7 +66,9 @@ void update_display(void) {
     dp_stat = get_status();
     
     // Calculate temp diff to see if the light should flash
-    int temp_diff = get_temp_setpoint() - get_temperature();
+    int temp_setpoint = get_temp_setpoint();
+    int temperature =  get_temperature();
+    int temp_diff = temp_setpoint - temperature;
     int on_temp = (temp_diff <= TEMP_DIFF && temp_diff >= -TEMP_DIFF);
     
     if(dp_stat == ON && on_temp)

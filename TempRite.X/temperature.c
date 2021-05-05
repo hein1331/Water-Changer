@@ -100,7 +100,7 @@ int get_adc_from_temp(int temperature) {
         
         resistance = (long)((y0 * (x1 - temperature) + y1 * (temperature - x0))/(x1 - x0)); 
     }
-    
+
     // Calculate adc of thermistor
-    return (int) (((unsigned long)resistance * MAX_ADC) / ((unsigned long)resistance - R1));
+    return (int) (((long)resistance * MAX_ADC) / (R1 + (long)resistance));
 }

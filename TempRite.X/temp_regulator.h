@@ -10,8 +10,8 @@
 
 signed int iterate_pi(void);
 void temp_regulator_update(void);
+void update_pi_regulator(void);
 
-#define TEMP_SETPOINT 77
 #define KP  30//20
 #define KI  9 //0.1 offset
 #define CONTROL_TIME    50 // 10s of milliseconds

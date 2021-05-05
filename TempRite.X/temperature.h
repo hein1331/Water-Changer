@@ -20,8 +20,8 @@ int get_raw_adc(void);
 #define ADC_INT PIR1bits.ADIF
 #define RESET_ADC ADC_INT = 0;
 
-#define R1 22000UL
-#define MAX_ADC 1023UL
+#define R1 22000L
+#define MAX_ADC 1023L
 
 // Temperature lookup table
 #define LUT_SIZE    15

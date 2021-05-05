@@ -64,14 +64,20 @@ void main(void) {
     // Start global interrupts
     START_INTERRUPTS;
     
-    while(1) {
+    while(TRUE) {        
+        // Calculate temperature every 250ms
         if(calc_temp) {
             calc_temp = FALSE;
-            calculate_temperature(TRUE);
+            calculate_temperature(FALSE);
         }
+        
+        // Calculate ADC setpoint when button is pressed
+        adc_setpoint_update();
+        
+        // Update PI regulator every 500ms
+        update_pi_regulator();
     }
 }
-
 
 void __interrupt() ISR(void) {
     STOP_INTERRUPTS;

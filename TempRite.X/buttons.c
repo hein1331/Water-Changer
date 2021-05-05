@@ -1,7 +1,9 @@
 #include <xc.h>
 
+#include "commondefines.h"
 #include "io.h"
 #include "buttons.h"
+#include "temperature.h"
 #include "display.h"
 
 unsigned volatile char status = OFF;
@@ -15,6 +17,8 @@ unsigned short up_counter;
 unsigned short dwn_counter;
 
 int temp_setpoint;
+volatile int adc_setpoint;
+volatile BOOL update_setpoint = TRUE;
 
 void init_buttons(void) {
     on_prev_state = ON_BUT;
@@ -27,6 +31,7 @@ void init_buttons(void) {
     
     // Get EEPROM value
     set_setpoint_from_nvm();
+    adc_setpoint = get_adc_from_temp(temp_setpoint);
 }
 
 unsigned char get_status(void) {
@@ -35,6 +40,18 @@ unsigned char get_status(void) {
 
 int get_temp_setpoint(void) {
     return temp_setpoint;
+}
+
+int get_adc_setpoint(void) {
+    return adc_setpoint;
+}
+
+void adc_setpoint_update() {
+    if(update_setpoint)
+    {
+        adc_setpoint = get_adc_from_temp(temp_setpoint);
+        update_setpoint = FALSE;
+    }
 }
 
 
@@ -52,6 +69,7 @@ void update_buttons(void) {
         if(temp_setpoint < MAX_SETPOINT)
         {
             temp_setpoint++;
+            update_setpoint = TRUE;
             save_setpoint_to_nvm();
         }
     }
@@ -60,6 +78,7 @@ void update_buttons(void) {
         if(temp_setpoint > MIN_SETPOINT)
         {
             temp_setpoint--;
+            update_setpoint = TRUE;
             save_setpoint_to_nvm();
         }
     }
