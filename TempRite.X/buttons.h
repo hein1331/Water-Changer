@@ -18,7 +18,7 @@ void set_setpoint_from_nvm(void);
 void save_setpoint_to_nvm(void);
 void unlock_nvm(void);
 int get_adc_setpoint(void);
-void adc_setpoint_update();
+void adc_setpoint_update(void);
 
 #define SETPOINT_SAVE_ADDR  0x3FFF
 

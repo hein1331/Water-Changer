@@ -46,7 +46,7 @@ int get_adc_setpoint(void) {
     return adc_setpoint;
 }
 
-void adc_setpoint_update() {
+void adc_setpoint_update(void) {
     if(update_setpoint)
     {
         adc_setpoint = get_adc_from_temp(temp_setpoint);
