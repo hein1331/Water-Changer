@@ -12,12 +12,12 @@ signed int iterate_pi(void);
 void temp_regulator_update(void);
 void update_pi_regulator(void);
 
-#define KP  30//20
-#define KI  9 //0.1 offset
+#define KP  8//20
+#define KI  30 //0.01 offset
 #define CONTROL_TIME    50 // 10s of milliseconds
-#define BIAS    45
+#define BIAS    50
 
-#define TEMP_DIFF   3
+#define TEMP_DIFF 1
 
 #define UPDATE_TIME 5
 

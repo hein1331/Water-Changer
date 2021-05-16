@@ -13,7 +13,7 @@
 void init_display(void);
 void update_display(void);
 
-#define SHOW_TEMP
+//#define SHOW_TEMP
 
 #ifdef SHOW_TEMP
 #define GET_TEMP    get_temperature()

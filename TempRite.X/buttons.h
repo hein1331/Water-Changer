@@ -26,7 +26,7 @@ void adc_setpoint_update(void);
 
 #define MAX_SETPOINT        99
 #define MIN_SETPOINT        0
-#define DEFAULT_SETPOINT    28
+#define DEFAULT_SETPOINT    26
 
 #endif	/* BUTTONS_H */
 

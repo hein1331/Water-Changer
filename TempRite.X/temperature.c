@@ -92,11 +92,12 @@ int get_adc_from_temp(int temperature) {
         int lower = temperature/TEMP_INCREMENT;
         int upper = lower + 1;
         
+        // 34 -> 6, upper 7
         // Get the two points
         long x0 = (long)lower*TEMP_INCREMENT;
         long x1 = (long)upper*TEMP_INCREMENT;
-        long y0 = (long)temp_lookup[upper];
-        long y1 = (long)temp_lookup[lower];
+        long y0 = (long)temp_lookup[lower];
+        long y1 = (long)temp_lookup[upper];
         
         resistance = (long)((y0 * (x1 - temperature) + y1 * (temperature - x0))/(x1 - x0)); 
     }

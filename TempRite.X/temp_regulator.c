@@ -17,6 +17,13 @@ void temp_regulator_update(void) {
         COLD_VALVE = time < cold_time;
         HOT_VALVE = time < hot_time;
         time++;
+        
+        if(time > cold_time)
+            time++;
+        
+        if(time > hot_time)
+            time++;
+        
     }
     else {
         COLD_VALVE = 0;
@@ -34,7 +41,7 @@ void update_pi_regulator(void) {
         signed int err = adc_setpoint - raw_adc;
 
         signed int p = KP * err;
-        signed int i = (KI * (prev_i + (err * CONTROL_TIME)/100))/10;
+        signed int i = (KI * (prev_i + (err * CONTROL_TIME)/10))/100;
         signed int new_val = p + i + BIAS;
 
         if(new_val > 100)
@@ -47,15 +54,15 @@ void update_pi_regulator(void) {
 
         prev_i = i;
 
-        hot_time = CONTROL_TIME * 2 * (100 - pi_val) / 10;
-        cold_time =CONTROL_TIME * 2 * (pi_val) / 10;
+        hot_time = CONTROL_TIME * 2 * (100 - pi_val) / 100;
+        cold_time = CONTROL_TIME * 2 * (pi_val) / 100;
 
-        if(hot_time > CONTROL_TIME*10)
-            hot_time = CONTROL_TIME*10;
+        if(hot_time > CONTROL_TIME)
+            hot_time = CONTROL_TIME;
 
-        if(cold_time > CONTROL_TIME*10)
-            cold_time = CONTROL_TIME*10;
+        if(cold_time > CONTROL_TIME)
+            cold_time = CONTROL_TIME;
 
-        time = 1;
+        time = 0;
     }
 }
