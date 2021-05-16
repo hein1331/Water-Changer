@@ -13,7 +13,13 @@
 void init_display(void);
 void update_display(void);
 
-#ifdef BREADBOARD
+//#define SHOW_TEMP
+
+#ifdef SHOW_TEMP
+#define GET_TEMP    get_temperature()
+#else
+#define GET_TEMP    get_temp_setpoint()
+#endif
 
 #define ON      0
 #define OFF     1
@@ -21,18 +27,9 @@ void update_display(void);
 #define DIG_1_EN   0
 #define DIG_2_EN   1
 
-#else
-
-#define ON      1
-#define OFF     0
-
-#define DIG_1_EN   1
-#define DIG_2_EN   0
-
-#endif
-
 #define FLASH   2
 #define DIG_OFF    10
+#define FLASH_SPEED 25 // Flash every X * 10 ms (25 -> flash every 250ms)
 
 #endif	/* DISPLAY_H */
 

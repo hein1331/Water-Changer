@@ -10,10 +10,15 @@
 
 void init_timer(void);
 
-// Timer set to 100Hz
-#define TIMER_FREQ 100
-#define TIMER_INT INTCON0bits.T0IF
-#define RESET_TIMER TIMER_INT = 0; TMR0 = 100;
+// Fast Timer set to 100Hz
+#define FAST_TIMER_FREQ 100
+#define FAST_TIMER_INT PIR1bits.TMR1IF
+#define RESET_FAST_TIMER FAST_TIMER_INT = 0; TMR1H = 177; TMR1L = 224;
+
+// Fast Timer set to 1Hz
+#define SLOW_TIMER_FREQ 1
+#define SLOW_TIMER_INT PIR0bits.TMR0IF
+#define RESET_SLOW_TIMER SLOW_TIMER_INT = 0; TMR0L = 11; 
 
 #endif	/* TIMER_H */
 
