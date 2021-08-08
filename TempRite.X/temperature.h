@@ -25,7 +25,7 @@ int get_raw_adc(void);
 
 // Temperature lookup table
 #define LUT_SIZE    15
-#define TEMP_INCREMENT  5
+#define TEMP_INCREMENT  50
 static const unsigned int temp_lookup[LUT_SIZE] = 
 {
     /*35563, // 0deg

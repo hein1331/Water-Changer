@@ -6,7 +6,7 @@
 #include "temperature.h"
 #include "display.h"
 
-unsigned volatile char status = OFF;
+volatile SYSTEM_STATUS status = WATER_OFF;
 
 unsigned short on_prev_state;
 unsigned short up_prev_state;
@@ -16,7 +16,7 @@ unsigned short on_counter;
 unsigned short up_counter;
 unsigned short dwn_counter;
 
-int temp_setpoint;
+int temp_setpoint = 26;
 volatile int adc_setpoint;
 volatile BOOL update_setpoint = TRUE;
 
@@ -59,10 +59,10 @@ void update_buttons(void) {
     // Set states based on buttons
     if(ON_BUT && on_counter == 0)
     {
-        if(status == OFF)
-            status = ON;
+        if(status == WATER_OFF)
+            status = WATER_ON;
         else
-            status = OFF;
+            status = WATER_OFF;
     }  
     if(UP_BUT && up_counter == 0)
     {

@@ -13,7 +13,7 @@ volatile unsigned int cold_time = 0;
 volatile unsigned int time = CONTROL_TIME;
 
 void temp_regulator_update(void) {
-    if(get_status() == ON) {
+    if(get_status() != WATER_OFF) {
         COLD_VALVE = time < cold_time;
         HOT_VALVE = time < hot_time;
         time++;
@@ -32,7 +32,7 @@ void temp_regulator_update(void) {
 }
 
 void update_pi_regulator(void) {
-    if(get_status() == ON && time >= CONTROL_TIME)
+    if(get_status() != WATER_OFF && time >= CONTROL_TIME)
     {
         int adc_setpoint = get_adc_setpoint();
         int raw_adc = get_raw_adc();

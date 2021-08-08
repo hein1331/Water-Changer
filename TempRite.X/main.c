@@ -48,7 +48,10 @@
 #include "temperature.h"
 #include "temp_regulator.h"
 
+
+
 volatile BOOL calc_temp = TRUE;
+volatile short update_screen = -5;
 
 void main(void) {
     // Stop global interrupts
@@ -58,6 +61,7 @@ void main(void) {
     init_io();
     init_timer();
     init_display();
+
     init_buttons();
     init_temperature();
     
@@ -70,6 +74,13 @@ void main(void) {
             calc_temp = FALSE;
             calculate_temperature(FALSE);
         }
+        // Update screen every 500ms
+        if(update_screen > 1)
+        {
+            update_screen = 0;
+            update_values();
+        }
+        
         
         // Calculate ADC setpoint when button is pressed
         adc_setpoint_update();
@@ -83,7 +94,6 @@ void __interrupt() ISR(void) {
     STOP_INTERRUPTS;
     if(FAST_TIMER_INT) {
         RESET_FAST_TIMER
-        update_display();
         update_buttons();
         temp_regulator_update();
         START_ADC;
@@ -91,6 +101,7 @@ void __interrupt() ISR(void) {
     if(SLOW_TIMER_INT) {
         RESET_SLOW_TIMER
         calc_temp = TRUE;
+        update_screen++;
     }
     if(ADC_INT)
         update_temperature();

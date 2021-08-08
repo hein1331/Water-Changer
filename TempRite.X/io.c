@@ -1,5 +1,8 @@
 #include <xc.h>
 #include "io.h"
+#include "commondefines.h"
+
+BOOL first_write = TRUE;
 
 void init_io(void) {
     // Enable HF Occilstior
@@ -29,4 +32,55 @@ void init_io(void) {
     
     // Set all of Port C to outputs
     TRISC = 0;
+    
+    // Init SPI
+    //Disable SPI
+    SSP1CON1bits.SSPEN = 0;
+    
+    // Setup RC3 to be SPI clock in PPS
+    RC3PPS = 0x07;
+    SSP1CLKPPSbits.PORT  = 0b010;
+    SSP1CLKPPSbits.PIN  = 0b011;
+    
+    // Setup RC2 to be SPI SDO in PPS
+    RC2PPS = 0x08;
+            
+    // Clear write collision
+    CLEAR_SPI_COLLISION;
+    
+    // Set Flag
+    RESET_SPI_BUFFER;
+    
+    // Set clock polarity to idle low
+    SSP1CON1bits.CKP = 0;
+    
+    // Set clock speed to 370kHz
+    SSP1CON1bits.SSPM = 0b1010;
+    SSP1ADD = 0xA;
+    
+    // Set clock edge to transmit on low to high transition
+    SSP1STATbits.CKE = 1;
+    
+    // Enable SPI
+    SSP1CON1bits.SSPEN = 1;
+}
+
+
+void spi_write(unsigned char data) {
+    
+    if(SPI_COLLISION_OCCURED) {
+        CLEAR_SPI_COLLISION;
+        LED1 = 1;
+    }
+    
+    first_write = FALSE;
+    
+    SSP1BUF = data;
+    
+    // Wait for write to complete
+    while(!SPI_WRITE_COMPLETE);
+    
+    // Reset the buffer
+    RESET_SPI_BUFFER;
+    
 }

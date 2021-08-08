@@ -8,16 +8,13 @@
 #ifndef IO_H
 #define	IO_H
 
-#define SEG_A   LATAbits.LATA3
-#define SEG_B   LATAbits.LATA4
-#define SEG_C   LATAbits.LATA5
-#define SEG_D   LATAbits.LATA7
-#define SEG_E   LATAbits.LATA6
-#define SEG_F   LATCbits.LATC0
-#define SEG_G   LATCbits.LATC1
-#define DP      LATCbits.LATC2
-#define DIG_1   LATCbits.LATC3
-#define DIG_2   LATCbits.LATC7
+#define DISP_CS_PORT    LATAbits.LATA3
+#define DISP_DC_PORT    LATAbits.LATA4
+#define DISP_RST_PORT   LATAbits.LATA5
+#define SPI_CLK_PORT    LATCbits.LATC3
+#define MOSI_PORT       PORTCbits.RC2
+
+#define LED1    LATAbits.LATA7
 
 #define ON_BUT  PORTBbits.RB2
 #define UP_BUT  PORTBbits.RB0
@@ -26,6 +23,14 @@
 #define COLD_VALVE LATAbits.LATA1
 #define HOT_VALVE LATAbits.LATA2
 
+#define INIT_SPI_BUFFER    PIR1bits.SSP1IF = 1
+#define RESET_SPI_BUFFER    PIR1bits.SSP1IF = 0
+#define SPI_WRITE_COMPLETE  (PIR1bits.SSP1IF == 1)
+
+#define CLEAR_SPI_COLLISION SSP1CON1bits.WCOL = 0
+#define SPI_COLLISION_OCCURED SSP1CON1bits.WCOL == 1
+
+void spi_write(unsigned char data);
 void init_io(void);
 
 #endif	/* IO_H */
