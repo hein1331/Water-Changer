@@ -10,11 +10,12 @@
 signed int prev_i = 0;
 volatile unsigned int hot_time = 0;
 volatile unsigned int cold_time = 0;
-volatile unsigned int time = CONTROL_TIME;
+volatile int time = 0;
 
 void temp_regulator_update(void) {
     if(get_status() != WATER_OFF) {
-        COLD_VALVE = time < cold_time;
+        // Don't turn on both valves at the same time, to save power supply
+        COLD_VALVE = time < cold_time && ((time < hot_time && HOT_VALVE_STAT) || time >= hot_time);
         HOT_VALVE = time < hot_time;
         time++;
         
@@ -41,7 +42,7 @@ void update_pi_regulator(void) {
         signed int err = adc_setpoint - raw_adc;
 
         signed int p = KP * err;
-        signed int i = (KI * (prev_i + (err * CONTROL_TIME)/10))/100;
+        signed int i = (KI * (prev_i + (err * time)/10))/100;
         signed int new_val = p + i + BIAS;
 
         if(new_val > 100)
@@ -58,10 +59,10 @@ void update_pi_regulator(void) {
         cold_time = CONTROL_TIME * 2 * (pi_val) / 100;
 
         if(hot_time > CONTROL_TIME)
-            hot_time = CONTROL_TIME;
+            hot_time = SATURATE_TIME;
 
         if(cold_time > CONTROL_TIME)
-            cold_time = CONTROL_TIME;
+            cold_time = SATURATE_TIME;
 
         time = 0;
     }

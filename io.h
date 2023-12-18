@@ -21,7 +21,10 @@
 #define DWN_BUT  PORTBbits.RB1
 
 #define COLD_VALVE LATAbits.LATA1
+#define COLD_VALVE_STAT PORTAbits.RA1
 #define HOT_VALVE LATAbits.LATA2
+#define HOT_VALVE_STAT PORTAbits.RA2
+
 
 #define INIT_SPI_BUFFER    PIR1bits.SSP1IF = 1
 #define RESET_SPI_BUFFER    PIR1bits.SSP1IF = 0

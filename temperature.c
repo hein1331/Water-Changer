@@ -62,13 +62,13 @@ void calculate_temperature(BOOL deg_f) {
     if(i == 0)
         temperature = 0;
     else if (i == LUT_SIZE)
-        temperature = LUT_SIZE * TEMP_INCREMENT;
+        temperature = LUT_SIZE * TEMP_INCREMENT * 10;
     else { 
         // Get the two points
         long x0 = (long)temp_lookup[i-1];
         long x1 = (long)temp_lookup[i];
-        long y0 = (long)(i-1)*TEMP_INCREMENT;
-        long y1 = (long)(i)*TEMP_INCREMENT;
+        long y0 = (long)(i-1)*TEMP_INCREMENT*10;
+        long y1 = (long)(i)*TEMP_INCREMENT*10;
 
         // Interpolate the points
         temperature = (int)((y0 * (x1 - r_therm) + y1 * (r_therm - x0))/(x1 - x0)); 

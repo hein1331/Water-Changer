@@ -75,12 +75,11 @@ void main(void) {
             calculate_temperature(FALSE);
         }
         // Update screen every 500ms
-        if(update_screen > 1)
+        if(update_screen > 2)
         {
             update_screen = 0;
             update_values();
         }
-        
         
         // Calculate ADC setpoint when button is pressed
         adc_setpoint_update();
